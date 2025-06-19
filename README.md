@@ -16,7 +16,7 @@ Ryzer  is a decentralized platform for real estate tokenization, enabling the cr
 | Development Framework | Foundry |
 | Testing Framework | Forge |
 | Key Dependencies | OpenZeppelin Contracts | 
-| Network Support | EVM Compatible Chains |
+| Network Support | XRPLEVM Testnet |
 
 ## Deployment Addresses
 
