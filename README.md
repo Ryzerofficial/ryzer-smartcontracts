@@ -3,6 +3,8 @@
 ## Overview
 Ryzer  is a decentralized platform for real estate tokenization, enabling the creation, management, and trading of tokenized real estate assets. The platform consists of several core smart contracts that work together to provide a secure and efficient ecosystem for real estate tokenization.
 
+### WorkFlow 
+
 ![Ryzer_Flowdiagram](https://github.com/user-attachments/assets/eedb2f16-f929-4db4-9d5a-04802de03110)
 
 ## Technical Specifications
@@ -10,7 +12,6 @@ Ryzer  is a decentralized platform for real estate tokenization, enabling the cr
 | Specification | Version/Details |
 |--------------|----------------|
 | EVM Version | Paris |
-
 | Solidity Version | 0.8.29 |
 | Development Framework | Foundry |
 | Testing Framework | Forge |
