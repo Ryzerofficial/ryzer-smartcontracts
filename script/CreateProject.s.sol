@@ -15,8 +15,8 @@ contract CreateProject is Script {
     address factoryProxy = 0xC2bD23767E9cA47C9362E9059EDae151dD07ef9e; // xrpl
     RyzerFactory ryzerFactory = RyzerFactory(factoryProxy);
 
-    string projectName = "Akash Project";
-    string projectSymbol = "AK47";
+    string projectName = "Test Project";
+    string projectSymbol = "XRPTEST";
 
     function run() external {
         address deployer = 0x3c5a809e712D30D932b71EdB066FA2EEDEE6Ad58;

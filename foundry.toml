@@ -19,12 +19,9 @@ remappings = [
 viaIR= true
 
 [rpc_endpoints]
-apothem = "${APOTHEM_RPC_URL}"
-xdc_mainnet = "${XDC_MAINNET_RPC_URL}"
 xrplevm = "${XRPL_TESTNET_RPC_URL}"
 
-[etherscan]
-xdc_mainnet = { key = "${XDC_SCAN_API_KEY}", url = "${XDC_ETHERSCAN_VERIFIER_URL}" }
+
 
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
