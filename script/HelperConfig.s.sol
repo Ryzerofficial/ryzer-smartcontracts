@@ -33,7 +33,11 @@ contract HelperConfig is Script {
         }
     }
 
-    function getXdcMainnetConfig() public pure returns (NetworkConfig memory xdcMainnetNetworkConfig) {
+    function getXdcMainnetConfig()
+        public
+        pure
+        returns (NetworkConfig memory xdcMainnetNetworkConfig)
+    {
         xdcMainnetNetworkConfig = NetworkConfig({
             usdt: 0xD4B5f10D61916Bd6E0860144a91Ac658dE8a1437,
             ryzerToken: 0x9b75fF79Bdd37E75374BDF78092138eD39A01745,
@@ -41,15 +45,23 @@ contract HelperConfig is Script {
         });
     }
 
-    function getXdcApothemConfig() public pure returns (NetworkConfig memory xdcApothemNetworkConfig) {
+    function getXdcApothemConfig()
+        public
+        pure
+        returns (NetworkConfig memory xdcApothemNetworkConfig)
+    {
         xdcApothemNetworkConfig = NetworkConfig({
-            usdt: 0x8EBe3F72cBbc78bF0802180a72D73cCE82f821c2,
-            ryzerToken: 0xDF40382D86Fc26ac8938Cd23f7d4ba58BC32c608,
+            usdt: 0x0346f13aD05AfA83D5138958dF95e5AC0216Fc0c,
+            ryzerToken: 0x718b8Bd1076f1010591E91f952D859378044682a,
             deployer: 0x3c5a809e712D30D932b71EdB066FA2EEDEE6Ad58
         });
     }
 
-    function getXrplEvmConfig() public pure returns (NetworkConfig memory xrplEvmConfig) {
+    function getXrplEvmConfig()
+        public
+        pure
+        returns (NetworkConfig memory xrplEvmConfig)
+    {
         xrplEvmConfig = NetworkConfig({
             usdt: 0x8c99B4e51eA9Aa3df5F44FAeF0061f7Ad9Ef5102,
             ryzerToken: 0x784E7DeBd0690697B69688B6daA684611b6B8079,
@@ -57,7 +69,10 @@ contract HelperConfig is Script {
         });
     }
 
-    function getOrCreateAnvilConfig() public returns (NetworkConfig memory anvilNetworkConfig) {
+    function getOrCreateAnvilConfig()
+        public
+        returns (NetworkConfig memory anvilNetworkConfig)
+    {
         // Check to see if we set an active network config
         if (activeNetworkConfig.deployer != address(0)) {
             return activeNetworkConfig;
@@ -68,7 +83,10 @@ contract HelperConfig is Script {
         ERC20Mock _ryzerToken = new ERC20Mock();
         vm.stopBroadcast();
 
-        anvilNetworkConfig =
-            NetworkConfig({usdt: address(_usdt), ryzerToken: address(_ryzerToken), deployer: FOUNDRY_DEFAULT_DEPLOYER});
+        anvilNetworkConfig = NetworkConfig({
+            usdt: address(_usdt),
+            ryzerToken: address(_ryzerToken),
+            deployer: FOUNDRY_DEFAULT_DEPLOYER
+        });
     }
 }

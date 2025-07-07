@@ -20,6 +20,7 @@ viaIR= true
 
 [rpc_endpoints]
 xrplevm = "${XRPL_TESTNET_RPC_URL}"
+apothem = "${XDC_TESTNET_RPC_URL}"
 
 
 
