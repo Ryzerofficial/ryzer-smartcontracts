@@ -312,6 +312,7 @@ contract RyzerOrderManager is
             IRyzerEscrow(params._escrowAddress).deposit(
                 orderId,
                 msg.sender,
+                params._amount,
                 payment,
                 uint256(params._paymentType),
                 params._assetId
@@ -371,7 +372,7 @@ contract RyzerOrderManager is
             revert OrderAlreadyFinalized();
         }
 
-        // Skip payment step if already paid in full
+        // Skip payment step if already paid in full // need to remove this
         if (!order.hasFullPayment) {
             uint256 remainingPayment = order.totalOrderValue -
                 order.bookingEoiPayment;
@@ -380,6 +381,7 @@ contract RyzerOrderManager is
                 IRyzerEscrow(escrowAddress).deposit(
                     orderId,
                     msg.sender,
+                    0, // leave empty for now
                     remainingPayment,
                     uint256(PaymentType.FULL),
                     order.assetId

@@ -56,7 +56,7 @@ contract RyzerFactoryTest is Test {
 
         vm.startPrank(deployer);
         ryzerFactory.setCoreContracts(usdt, ryzerToken, address(registryProxy)); // after  deploying factory we have to call this function
-        UsdtMock(usdt).mint(user, 1000e6);
+        UsdtMock(usdt).mint(user, 7000e6);
         vm.stopPrank();
     }
 
@@ -107,19 +107,19 @@ contract RyzerFactoryTest is Test {
             name: projectName,
             symbol: "RYZX",
             decimals: 18,
-            maxSupply: 100e18,
-            tokenPrice: 100e6,
+            maxSupply: 225e18,
+            tokenPrice: 1316e6,
             cancelDelay: 86400,
             projectOwner: owner, // we have to check once
             assetId: bytes32("1"),
             assetType: bytes32("Commercial"),
             metadataCID: bytes32("1"),
             legalMetadataCID: bytes32("1"),
-            minInvestment: 10e18, // decimal attached
+            minInvestment: 1e18, // decimal attached
             maxInvestment: 80e18,
             eoiPct: 10, // 10% of the total amount // check once
-            dividendPct: 10,
-            premintAmount: 100e18,
+            dividendPct: 6,
+            premintAmount: 225e18,
             requiredSignatures: 3,
             lockPeriod: 365 days
         });
@@ -177,45 +177,125 @@ contract RyzerFactoryTest is Test {
             address daoAddresss
         ) = _createProject(deployer, companyId, projectName);
 
-        RyzerOrderManager.PlaceOrderParams memory params = RyzerOrderManager
-            .PlaceOrderParams({
-                _projectAddress: projectAddress,
-                _escrowAddress: escrowAddress,
-                _amount: 20e18,
-                _assetId: bytes32("1"),
-                _currencyPrice: 50e6, // usdt price
-                _paymentType: RyzerOrderManager.PaymentType.FULL,
-                _currency: RyzerOrderManager.Currency.USDT,
-                _fees: 4e6 // reconfirm
-            });
+        uint256[11] memory holdings = [
+            uint256(7000e6),
+            uint256(27000e6),
+            uint256(16000e6),
+            uint256(30000e6),
+            uint256(40000e6),
+            uint256(30000e6),
+            uint256(16000e6),
+            uint256(40000e6),
+            uint256(28000e6),
+            uint256(35000e6),
+            uint256(34000e6)
+        ];
 
-        //vm.startPrank(deployer);
-        // project.setProjectContracts(
-        //     address(escrow),
-        //     address(orderManager),
-        //     address(dao)
-        // );
-        // orderManager.setProjectContracts(usdt, address(escrow), projectAddress);
-        // escrow.setCoreContracts(usdt, projectAddress, uint16(block.chainid));
-        //vm.stopPrank();
-        assertTrue(RyzerRealEstateToken(projectAddress).balanceOf(user) == 0);
+        uint256[11] memory approvals = [
+            uint256(6580e6),
+            uint256(26320e6),
+            uint256(15792e6),
+            uint256(28952e6),
+            uint256(39480e6),
+            uint256(28952e6),
+            uint256(15792e6),
+            uint256(39480e6),
+            uint256(27636e6),
+            uint256(34216e6),
+            uint256(32900e6)
+        ];
 
-        vm.startPrank(user);
-        UsdtMock(usdt).approve(escrowAddress, 200e6); // check this // 44
-        bytes32 orderId = RyzerOrderManager(orderManagerAddress).placeOrder(
-            params
-        );
-        vm.stopPrank();
-        if (params._paymentType == RyzerOrderManager.PaymentType.FULL)
-            assertTrue(
-                RyzerRealEstateToken(projectAddress).balanceOf(user) > 0
+        uint256[11] memory tokenInvested = [
+            uint256(5e18),
+            uint256(20e18),
+            uint256(12e18),
+            uint256(22e18),
+            uint256(30e18),
+            uint256(22e18),
+            uint256(12e18),
+            uint256(30e18),
+            uint256(21e18),
+            uint256(26e18),
+            uint256(25e18)
+        ];
+
+        for (uint256 i = 0; i < 11; i++) {
+            address investor = makeAddr(
+                string(abi.encodePacked("investor", vm.toString(i)))
             );
 
-        vm.startPrank(user);
-        RyzerOrderManager(orderManagerAddress).finalizeOrder(
-            projectAddress,
-            escrowAddress,
-            orderId
+            vm.startPrank(deployer);
+            UsdtMock(usdt).mint(investor, holdings[i]);
+            vm.stopPrank();
+
+            RyzerOrderManager.PlaceOrderParams memory params = RyzerOrderManager
+                .PlaceOrderParams({
+                    _projectAddress: projectAddress,
+                    _escrowAddress: escrowAddress,
+                    _amount: tokenInvested[i],
+                    _assetId: bytes32("1"),
+                    _currencyPrice: 1e6,
+                    _paymentType: RyzerOrderManager.PaymentType.FULL,
+                    _currency: RyzerOrderManager.Currency.USDT,
+                    _fees: 0
+                });
+
+            assertEq(
+                RyzerRealEstateToken(projectAddress).balanceOf(investor),
+                0
+            );
+
+            console.log(
+                "Usdc balance before: ",
+                UsdtMock(usdt).balanceOf(investor)
+            );
+
+            vm.startPrank(investor);
+            UsdtMock(usdt).approve(escrowAddress, approvals[i]);
+            bytes32 orderId = RyzerOrderManager(orderManagerAddress).placeOrder(
+                params
+            );
+            vm.stopPrank();
+
+            console.log(
+                "Usdc balance after: ",
+                UsdtMock(usdt).balanceOf(investor)
+            );
+
+            if (params._paymentType == RyzerOrderManager.PaymentType.FULL) {
+                assertGt(
+                    RyzerRealEstateToken(projectAddress).balanceOf(investor),
+                    0
+                );
+
+                console.log(
+                    "user balance: ",
+                    RyzerRealEstateToken(projectAddress).balanceOf(investor)
+                );
+                console.log(
+                    "escrow balance: ",
+                    RyzerRealEstateToken(projectAddress).balanceOf(
+                        escrowAddress
+                    )
+                );
+            }
+
+            vm.startPrank(investor);
+            RyzerOrderManager(orderManagerAddress).finalizeOrder(
+                projectAddress,
+                escrowAddress,
+                orderId
+            );
+            vm.stopPrank();
+        }
+    }
+
+    function testUpgrade() public {
+        RyzerFactory newImplementation = new RyzerFactory();
+        vm.startPrank(deployer);
+        RyzerFactory(address(ryzerFactory)).upgradeToAndCall(
+            address(newImplementation),
+            ""
         );
         vm.stopPrank();
     }

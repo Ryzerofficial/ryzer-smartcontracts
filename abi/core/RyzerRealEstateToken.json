@@ -461,7 +461,7 @@
       {
         "name": "details",
         "type": "tuple",
-        "internalType": "struct TokenStorage.TokenConfig",
+        "internalType": "struct RyzerRealEstateToken.TokenConfig",
         "components": [
           {
             "name": "identityRegistry",
@@ -719,146 +719,49 @@
     "name": "init",
     "inputs": [
       {
-        "name": "_config",
-        "type": "tuple",
-        "internalType": "struct TokenStorage.TokenConfig",
-        "components": [
-          {
-            "name": "identityRegistry",
-            "type": "address",
-            "internalType": "address"
-          },
-          {
-            "name": "compliance",
-            "type": "address",
-            "internalType": "address"
-          },
-          {
-            "name": "onchainID",
-            "type": "address",
-            "internalType": "address"
-          },
-          {
-            "name": "name",
-            "type": "string",
-            "internalType": "string"
-          },
-          {
-            "name": "symbol",
-            "type": "string",
-            "internalType": "string"
-          },
-          {
-            "name": "decimals",
-            "type": "uint8",
-            "internalType": "uint8"
-          },
-          {
-            "name": "maxSupply",
-            "type": "uint256",
-            "internalType": "uint256"
-          },
-          {
-            "name": "tokenPrice",
-            "type": "uint256",
-            "internalType": "uint256"
-          },
-          {
-            "name": "cancelDelay",
-            "type": "uint256",
-            "internalType": "uint256"
-          },
-          {
-            "name": "projectOwner",
-            "type": "address",
-            "internalType": "address"
-          },
-          {
-            "name": "factory",
-            "type": "address",
-            "internalType": "address"
-          },
-          {
-            "name": "escrow",
-            "type": "address",
-            "internalType": "address"
-          },
-          {
-            "name": "orderManager",
-            "type": "address",
-            "internalType": "address"
-          },
-          {
-            "name": "dao",
-            "type": "address",
-            "internalType": "address"
-          },
-          {
-            "name": "companyId",
-            "type": "bytes32",
-            "internalType": "bytes32"
-          },
-          {
-            "name": "assetId",
-            "type": "bytes32",
-            "internalType": "bytes32"
-          },
-          {
-            "name": "metadataCID",
-            "type": "bytes32",
-            "internalType": "bytes32"
-          },
-          {
-            "name": "assetType",
-            "type": "bytes32",
-            "internalType": "bytes32"
-          },
-          {
-            "name": "legalMetadataCID",
-            "type": "bytes32",
-            "internalType": "bytes32"
-          },
-          {
-            "name": "dividendPct",
-            "type": "uint256",
-            "internalType": "uint256"
-          },
-          {
-            "name": "premintAmount",
-            "type": "uint256",
-            "internalType": "uint256"
-          },
-          {
-            "name": "minInvestment",
-            "type": "uint256",
-            "internalType": "uint256"
-          },
-          {
-            "name": "maxInvestment",
-            "type": "uint256",
-            "internalType": "uint256"
-          },
-          {
-            "name": "eoiPct",
-            "type": "uint256",
-            "internalType": "uint256"
-          },
-          {
-            "name": "lockPeriod",
-            "type": "uint256",
-            "internalType": "uint256"
-          },
-          {
-            "name": "requiredSignatures",
-            "type": "uint8",
-            "internalType": "uint8"
-          },
-          {
-            "name": "isActive",
-            "type": "bool",
-            "internalType": "bool"
-          }
-        ]
+        "name": "_identityRegistry",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "_compliance",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "_name",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "_symbol",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "_decimals",
+        "type": "uint8",
+        "internalType": "uint8"
+      },
+      {
+        "name": "_maxSupply",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "_factory",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "_projectOwner",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "_onchainID",
+        "type": "address",
+        "internalType": "address"
       }
     ],
     "outputs": [],
@@ -911,6 +814,19 @@
         "name": "",
         "type": "uint48",
         "internalType": "uint48"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "maxSupply",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
       }
     ],
     "stateMutability": "view"
@@ -2145,17 +2061,6 @@
   },
   {
     "type": "error",
-    "name": "InvalidToken",
-    "inputs": [
-      {
-        "name": "token",
-        "type": "address",
-        "internalType": "address"
-      }
-    ]
-  },
-  {
-    "type": "error",
     "name": "NotInitializing",
     "inputs": []
   },
@@ -2198,17 +2103,6 @@
         "name": "slot",
         "type": "bytes32",
         "internalType": "bytes32"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "Unauthorized",
-    "inputs": [
-      {
-        "name": "caller",
-        "type": "address",
-        "internalType": "address"
       }
     ]
   },

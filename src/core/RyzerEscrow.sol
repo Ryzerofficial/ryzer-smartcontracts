@@ -195,12 +195,14 @@ contract RyzerEscrow is
     /// @notice Deposits funds for an order
     /// @param orderId Order ID
     /// @param buyer Buyer address
-    /// @param amount Deposit amount
+    /// @param tokenAmount token amount to be minted
+    /// @param usdcAmount Deposit amount
     /// @param assetId Asset ID
     function deposit(
         bytes32 orderId,
         address buyer,
-        uint256 amount,
+        uint256 tokenAmount,
+        uint256 usdcAmount,
         uint256 paymentType,
         bytes32 assetId
     ) external nonReentrant whenNotPaused {
@@ -208,21 +210,21 @@ contract RyzerEscrow is
 
         if (msg.sender != orderManager) revert Unauthorized();
         if (buyer == address(0)) revert InvalidAddress(buyer);
-        if (amount == 0) revert InvalidAmount();
+        if (usdcAmount == 0) revert InvalidAmount();
         //_checkAllowanceAndBalance(buyer, amount);
         deposits[orderId] = Deposit({
             buyer: buyer,
-            amount: amount,
+            amount: usdcAmount,
             assetId: assetId
         });
 
-        usdtToken.safeTransferFrom(buyer, address(this), amount / 1e12);
+        usdtToken.safeTransferFrom(buyer, address(this), usdcAmount / 1e12);
 
         if (paymentType == 1) {
-            projectContract.safeTransfer(buyer, amount);
+            projectContract.safeTransfer(buyer, tokenAmount);
         }
 
-        emit Deposited(orderId, buyer, amount, assetId);
+        emit Deposited(orderId, buyer, usdcAmount, assetId);
     }
 
     function _checkAllowanceAndBalance(
